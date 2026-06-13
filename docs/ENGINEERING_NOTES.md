@@ -4,6 +4,31 @@ This log records implementation reasoning, investigations, fixes, and material
 technical observations. Durable architectural choices belong in ADRs; planned
 work belongs in the project tracker.
 
+## 2026-06-13: Test checkpoint and next-step assessment
+
+### Verification performed
+
+- Ran lint, 15 automated tests, and the production build successfully.
+- Confirmed zero known vulnerabilities in production dependencies.
+- Started one temporary Vite server on port 5173 and confirmed the application and source modules were served successfully.
+- Audited current UI integration points against the multi-store route-planning service.
+
+### Findings
+
+- Multi-store resolution and route planning are working in tested product logic.
+- The current UI still reads `sampleStore` and `sampleCart` directly.
+- The store control is static and unresolved products are not displayed.
+- `StoreMap` reads Store 1842 edges directly and hardcodes aisle blocks and zone labels, so a store selector alone would produce incorrect map rendering for other layouts.
+- Browser-driven screenshot and click automation could not reconnect after the repository relocation; interaction smoke tests need a repaired browser session or dedicated UI test harness.
+
+### Correct next order
+
+1. Define layout visualization metadata or a derivation rule.
+2. Refactor the map to receive the selected layout.
+3. Connect store selection to `planRouteForStore`.
+4. Display unresolved items and reset progress on store changes.
+5. Add UI integration and responsive visual tests.
+
 ## 2026-06-13: Build the multi-store domain foundation
 
 ### Objective

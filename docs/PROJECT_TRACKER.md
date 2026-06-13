@@ -39,6 +39,8 @@ deterministic cart.
 - [x] Create three distinct mock store layouts.
 - [x] Map the shared sample cart to each store with different placements.
 - [x] Validate graph, placement, entry, checkout, and availability references.
+- [ ] Define a layout-visualization contract for store-specific floor geometry and labels.
+- [ ] Refactor `StoreMap` to receive the selected layout instead of `sampleStore`.
 - [ ] Replace the static store control with a functional store selector.
 - [ ] Recompute route, metrics, map, and item sequence on store change.
 - [ ] Reset pick progress when route context changes.
@@ -56,6 +58,7 @@ deterministic cart.
 - [x] Label simulated evidence and known limitations in the interface.
 - [ ] Verify desktop, tablet, and mobile layouts against documented screenshots.
 - [ ] Add keyboard focus states and automated accessibility checks.
+- [ ] Add UI integration tests for strategy switching, pick progress, and store changes.
 - [ ] Create a concise portfolio walkthrough using real interface states.
 
 ### Priority 0: Validate the claim

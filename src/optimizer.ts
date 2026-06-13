@@ -1,18 +1,18 @@
-import type { CartItem, RouteResult, Store, StoreNode } from "./domain";
+import type { ResolvedPickItem, RouteContext, RouteResult, StoreNode } from "./domain";
 
 type Graph = Map<string, Array<{ id: string; weight: number }>>;
 
 const distance = (a: StoreNode, b: StoreNode) => Math.hypot(a.x - b.x, a.y - b.y);
 
-function buildGraph(store: Store): Graph {
-  const nodes = new Map(store.nodes.map((node) => [node.id, node]));
-  const graph: Graph = new Map(store.nodes.map((node) => [node.id, []]));
+function buildGraph(context: RouteContext): Graph {
+  const nodes = new Map(context.nodes.map((node) => [node.id, node]));
+  const graph: Graph = new Map(context.nodes.map((node) => [node.id, []]));
 
-  for (const edge of store.edges) {
+  for (const edge of context.edges) {
     const from = nodes.get(edge.from);
     const to = nodes.get(edge.to);
     if (!from || !to) throw new Error(`Invalid store edge: ${edge.from} -> ${edge.to}`);
-    const weight = distance(from, to) * store.feetPerMapUnit;
+    const weight = distance(from, to) * context.feetPerMapUnit;
     graph.get(from.id)!.push({ id: to.id, weight });
     graph.get(to.id)!.push({ id: from.id, weight });
   }
@@ -52,8 +52,8 @@ function shortestPath(graph: Graph, start: string, end: string): RouteResult {
   return { stops: [start, end], path, distance: distances.get(end)! };
 }
 
-function connectStops(store: Store, stops: string[]): RouteResult {
-  const graph = buildGraph(store);
+function connectStops(context: RouteContext, stops: string[]): RouteResult {
+  const graph = buildGraph(context);
   const route: RouteResult = { stops, path: [], distance: 0 };
 
   for (let index = 0; index < stops.length - 1; index += 1) {
@@ -64,23 +64,23 @@ function connectStops(store: Store, stops: string[]): RouteResult {
   return route;
 }
 
-export function aisleOrderRoute(store: Store, cart: CartItem[]): RouteResult {
+export function aisleOrderRoute(context: RouteContext, cart: ResolvedPickItem[]): RouteResult {
   const stops = [
-    store.startNodeId,
-    ...[...cart].sort((a, b) => a.aisle.localeCompare(b.aisle)).map((item) => item.nodeId),
-    store.endNodeId,
+    context.startNodeId,
+    ...[...cart].sort((a, b) => a.aisleLabel.localeCompare(b.aisleLabel)).map((item) => item.nodeId),
+    context.endNodeId,
   ];
-  return connectStops(store, stops);
+  return connectStops(context, stops);
 }
 
-export function optimizedRoute(store: Store, cart: CartItem[]): RouteResult {
-  const graph = buildGraph(store);
+export function optimizedRoute(context: RouteContext, cart: ResolvedPickItem[]): RouteResult {
+  const graph = buildGraph(context);
   const deferred = new Set(
     cart.filter((item) => item.handling === "chilled" || item.handling === "frozen").map((item) => item.nodeId),
   );
   const remaining = new Set(cart.map((item) => item.nodeId).filter((id) => !deferred.has(id)));
-  const stops = [store.startNodeId];
-  let current = store.startNodeId;
+  const stops = [context.startNodeId];
+  let current = context.startNodeId;
 
   const addNearest = (candidates: Set<string>) => {
     while (candidates.size > 0) {
@@ -95,8 +95,8 @@ export function optimizedRoute(store: Store, cart: CartItem[]): RouteResult {
 
   addNearest(remaining);
   addNearest(deferred);
-  stops.push(store.endNodeId);
-  return connectStops(store, stops);
+  stops.push(context.endNodeId);
+  return connectStops(context, stops);
 }
 
 export function routeSavings(baseline: RouteResult, optimized: RouteResult): number {

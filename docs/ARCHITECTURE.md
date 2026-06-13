@@ -12,10 +12,11 @@ backend complexity.
 ```mermaid
 flowchart LR
   User["Fulfillment shopper"] --> UI["React application"]
-  UI --> Optimizer["Route optimizer"]
-  StoreData["Versioned store graph"] --> Optimizer
-  Cart["Cart and handling constraints"] --> Optimizer
-  Optimizer --> Result["Sequenced stops, path, distance"]
+  UI --> Planner["Store route planning service"]
+  Repository["Fixture store repository"] --> Planner
+  Cart["Store-independent cart"] --> Planner
+  Planner --> Optimizer["Route optimizer"]
+  Optimizer --> Result["Resolved cart, baseline, optimized route"]
   Result --> UI
 ```
 
@@ -24,11 +25,15 @@ API, live indoor location, authentication, or persistence is claimed.
 
 ## Domain model
 
-- **Store:** Identifies the graph, entrance, checkout, and map scale.
+- **Product:** Store-independent catalog identity and handling attributes.
+- **Cart:** Store-independent product IDs and quantities.
+- **Store:** Store identity and active layout version.
+- **Store layout version:** Immutable, versioned graph, entrances, checkouts, and map scale.
 - **Store node:** Represents an entrance, checkout, intersection, or pick
   location.
 - **Store edge:** Represents a walkable connection between two nodes.
-- **Cart item:** Associates a product and handling constraint with a node.
+- **Product placement:** Associates a product with a node and aisle in one store layout version.
+- **Resolved pick item:** Store-specific optimizer input produced by joining a cart with placements.
 - **Route result:** Contains ordered stops, expanded walkable path, and total
   distance.
 

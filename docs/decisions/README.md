@@ -17,6 +17,7 @@ important technical choices.
 | [0001](0001-model-store-as-weighted-graph.md) | Accepted | Model the store as a weighted graph |
 | [0002](0002-keep-optimizer-independent-from-ui.md) | Accepted | Keep optimizer independent from UI |
 | [0003](0003-use-transparent-baselines.md) | Accepted | Use transparent baselines and measurable claims |
+| [0004](0004-separate-cart-from-store-placement.md) | Accepted | Separate cart products from store placements |
 
 ## Creating an ADR
 

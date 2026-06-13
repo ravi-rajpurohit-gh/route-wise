@@ -4,6 +4,29 @@ This log records implementation reasoning, investigations, fixes, and material
 technical observations. Durable architectural choices belong in ADRs; planned
 work belongs in the project tracker.
 
+## 2026-06-13: Build the multi-store domain foundation
+
+### Objective
+
+Allow one store-independent cart to resolve into different product placements and route inputs for multiple stores before adding store-selection UI.
+
+### Implementation
+
+- Separated products, carts, stores, layout versions, placements, and resolved pick items.
+- Added a fixture-backed repository behind a persistence-independent interface.
+- Added three stores with distinct layout transforms and product placements.
+- Added cart resolution with explicit unknown-product, missing-placement, and unavailable states.
+- Added a route-planning service that returns resolved cart state, route context, baseline, optimized route, and savings in one call.
+- Added fixture validation for stores, layouts, nodes, edges, entrances, checkouts, products, and placements.
+- Tightened fixture validation to reject duplicate store, layout, product, and per-layout product-placement identifiers.
+- Updated the optimizer contract to accept only a route context and resolved pick items.
+- Preserved the current Store 1842 UI through a compatibility fixture export.
+
+### Verification
+
+- Tests verify fixture validity, invalid cross-layout and duplicate placements, store-specific aisle resolution, unavailable and missing-placement states, store-isolated route nodes, different product pick sequences, and complete route plans.
+- UI store selection remains intentionally deferred to the next UI milestone.
+
 ## 2026-06-13: Initial product and engineering framing
 
 ### Objective

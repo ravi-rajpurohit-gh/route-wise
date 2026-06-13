@@ -19,11 +19,14 @@ and will use semantic versioning once releases begin.
   sequencing, and baseline improvement.
 - Production-oriented project documentation, decision records, and quality
   standards.
-- Evidence-first retail-operations interface with explicit simulation caveats.
+- Evidence-first retail-operations interface with route performance and operational context.
 - Store-independent products and carts, versioned layouts, and store-specific placements.
 - Fixture-backed store repository, cart resolver, and multi-store route-planning service.
 - Three validated store fixtures with unavailable-product handling.
 - Multi-store fixture, resolution, isolation, and route-planning tests.
+- Functional store selection with automatic store-specific route loading.
+- Guided-pick sessions with picked, skipped, reset, progress, and rerouting behavior.
+- Unavailable-item display and UI integration tests.
 
 ### Fixed
 
@@ -32,6 +35,8 @@ and will use semantic versioning once releases begin.
   parse TypeScript source.
 - Replaced generic marketing-oriented styling with an evidence-first analysis workspace.
 - Tightened fixture validation for duplicate IDs and duplicate per-layout placements.
+- Aligned store-specific aisle labels between product placements and map locations.
+- Removed internal development labels from the customer-facing application.
 
 ### Security
 

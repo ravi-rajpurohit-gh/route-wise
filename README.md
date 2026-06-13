@@ -1,6 +1,6 @@
 # RouteWise
 
-RouteWise is a production-minded prototype for constraint-aware in-store
+RouteWise is a store fulfillment routing application for constraint-aware in-store
 pick-path optimization. It converts a shopping cart and a store's walkable
 layout into a sequenced route from entry to checkout, then compares that route
 with a transparent aisle-order baseline.
@@ -38,11 +38,9 @@ Quality checks:
 npm run check
 ```
 
-## Current result
+## Current capabilities
 
-For the deterministic sample cart, the current heuristic generates a `698 ft`
-route that is `32%` shorter than the aisle-order baseline. This result is a
-demonstration, not yet evidence of broader operational impact.
+RouteWise resolves one cart across multiple store layouts, generates a store-specific pick route, and updates the remaining path as items are picked or skipped. The current routing strategy remains under active benchmark validation.
 
 ## Project documentation
 

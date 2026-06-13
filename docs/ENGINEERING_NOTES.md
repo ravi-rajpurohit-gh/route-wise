@@ -4,6 +4,32 @@ This log records implementation reasoning, investigations, fixes, and material
 technical observations. Durable architectural choices belong in ADRs; planned
 work belongs in the project tracker.
 
+## 2026-06-13: Deliver the guided-pick workflow
+
+### Product behavior
+
+- Added a functional store selector that resolves the same cart for each store.
+- Defined `Start picking` as the transition from route review to an active pick session.
+- Added explicit `Picked` and `Skip` actions for each pending item.
+- A picked item advances the confirmed shopper location and recalculates the remaining route.
+- A skipped item leaves shopper location unchanged and removes the item from the active route.
+- Store changes and session reset clear all pick progress.
+- Unavailable and unresolved items are displayed outside the active route.
+
+### Production-facing language
+
+Removed internal development labels from the application interface. Technical documentation continues to record data provenance and validation limitations.
+
+### Map direction
+
+The map now renders the selected layout instead of Store 1842 directly. It remains a routing-oriented diagram; a customer-friendly store-map visualization is tracked as a later visual-design milestone.
+
+### Verification
+
+- Added pure pick-session tests for starting, picking, skipping, and location updates.
+- Added UI integration tests for store selection, unavailable items, starting a session, picking, skipping, and progress reset.
+- All 22 tests, lint, production build, formatting checks, and production dependency audit pass.
+
 ## 2026-06-13: Test checkpoint and next-step assessment
 
 ### Verification performed

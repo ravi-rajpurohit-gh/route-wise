@@ -60,6 +60,7 @@ function createLayout(
   version: string,
   transform: (point: { x: number; y: number }) => { x: number; y: number },
   feetPerMapUnit: number,
+  nodeLabels: Record<string, string> = {},
 ): StoreLayoutVersion {
   const id = `${storeId}-${version}`;
   return {
@@ -67,7 +68,7 @@ function createLayout(
     storeId,
     version,
     feetPerMapUnit,
-    nodes: baseNodes.map((node) => ({ ...node, id: prefix(storeId, node.id), ...transform(node) })),
+    nodes: baseNodes.map((node) => ({ ...node, label: nodeLabels[node.id] ?? node.label, id: prefix(storeId, node.id), ...transform(node) })),
     edges: baseEdges.map((edge) => ({ from: prefix(storeId, edge.from), to: prefix(storeId, edge.to) })),
     entryNodeIds: [prefix(storeId, "entry")],
     checkoutNodeIds: [prefix(storeId, "checkout")],
@@ -97,8 +98,8 @@ export const stores: Store[] = [
 
 export const layouts: StoreLayoutVersion[] = [
   createLayout("store-1842", "v1", ({ x, y }) => ({ x, y }), 0.25),
-  createLayout("store-2751", "v1", ({ x, y }) => ({ x: 668 - x, y }), 0.27),
-  createLayout("store-4103", "v1", ({ x, y }) => ({ x: 100 + (x - 74) * 0.78, y: 100 + (y - 90) * 0.78 }), 0.22),
+  createLayout("store-2751", "v1", ({ x, y }) => ({ x: 668 - x, y }), 0.27, { a03: "B03", a08: "B08", a12: "B12", a18: "B18" }),
+  createLayout("store-4103", "v1", ({ x, y }) => ({ x: 100 + (x - 74) * 0.78, y: 100 + (y - 90) * 0.78 }), 0.22, { a03: "N03", a08: "N08", a12: "N12", a18: "N18" }),
 ];
 
 const placement = (

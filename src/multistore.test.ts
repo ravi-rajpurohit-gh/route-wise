@@ -60,6 +60,16 @@ describe("cart resolution", () => {
     expect(plano.unresolved).toContainEqual({ productId: "bread", quantity: 1, reason: "missing-placement" });
   });
 
+  it("keeps store-specific aisle labels aligned between placements and layout nodes", async () => {
+    for (const store of stores) {
+      const resolved = await resolveCartForStore(repository, cart, store.id);
+      const nodeById = new Map(resolved.layout.nodes.map((node) => [node.id, node]));
+      for (const item of resolved.items.filter((candidate) => candidate.aisleLabel.match(/^[ABN]\d+$/))) {
+        expect(nodeById.get(item.nodeId)?.label).toBe(item.aisleLabel);
+      }
+    }
+  });
+
   it("produces store-isolated routes for every fixture store", async () => {
     for (const store of stores) {
       const resolved = await resolveCartForStore(repository, cart, store.id);

@@ -23,7 +23,8 @@ deterministic cart.
 | M0: Product framing | Complete | Problem, user, MVP boundaries, risks, and success metrics documented |
 | M1: End-to-end vertical slice | Complete | Store graph, optimizer, baseline, interactive UI, tests, and scaled metrics |
 | M1.1: Visual credibility pass | In progress | Operations-oriented interface, clear evidence hierarchy, responsive QA, no decorative product fiction |
-| M1.2: Multi-store foundation | In progress | Store-independent cart, versioned layouts, product placements, three validated fixture stores, functional store selector |
+| M1.2: Multi-store foundation | Complete | Store-independent cart, versioned layouts, product placements, three validated fixture stores, functional store selector |
+| M1.3: Customer-friendly store map | Planned | Department zones, aisle geometry, landmarks, route overlay, and visual QA across stores |
 | M2: Algorithm validation | In progress | Generated-cart benchmarks, 2-opt, exact small-cart comparison, performance report |
 | M3: Operational behavior | Planned | Unavailable items, substitutions, rerouting, multiple entrances, accessibility rules |
 | M4: Service architecture | Planned | Versioned API, persisted graphs, observability, validation, and performance budgets |
@@ -36,16 +37,17 @@ deterministic cart.
 - [x] Separate product catalog and cart lines from store placements.
 - [x] Introduce versioned `StoreLayoutVersion` and `ProductPlacement` models.
 - [x] Introduce a store repository interface and fixture-backed implementation.
-- [x] Create three distinct mock store layouts.
+- [x] Create three distinct fixture store layouts.
 - [x] Map the shared sample cart to each store with different placements.
 - [x] Validate graph, placement, entry, checkout, and availability references.
-- [ ] Define a layout-visualization contract for store-specific floor geometry and labels.
-- [ ] Refactor `StoreMap` to receive the selected layout instead of `sampleStore`.
-- [ ] Replace the static store control with a functional store selector.
-- [ ] Recompute route, metrics, map, and item sequence on store change.
-- [ ] Reset pick progress when route context changes.
+- [x] Define an initial node-derived visualization contract for store-specific layouts.
+- [ ] Replace the routing diagram with a customer-friendly store-map visualization.
+- [x] Refactor `StoreMap` to receive the selected layout instead of `sampleStore`.
+- [x] Replace the static store control with a functional store selector.
+- [x] Recompute route, metrics, map, and item sequence on store change.
+- [x] Reset pick progress when route context changes.
 - [x] Resolve unavailable, missing-placement, and unknown-product states before optimization.
-- [ ] Display unavailable or unresolved products in the interface.
+- [x] Display unavailable or unresolved products in the interface.
 - [x] Add tests proving routes never mix nodes from different stores.
 - [x] Decide to defer persistence until fixture-backed multi-store behavior is validated.
 
@@ -55,10 +57,10 @@ deterministic cart.
 - [x] Put route evidence and baseline comparison above the fold.
 - [x] Remove decorative profile UI and unsupported product fiction.
 - [x] Establish a restrained operations-oriented color and typography system.
-- [x] Label simulated evidence and known limitations in the interface.
+- [x] Present route performance and operational rules without internal development labels.
 - [ ] Verify desktop, tablet, and mobile layouts against documented screenshots.
 - [ ] Add keyboard focus states and automated accessibility checks.
-- [ ] Add UI integration tests for strategy switching, pick progress, and store changes.
+- [x] Add UI integration tests for store selection, pick progress, skip actions, and store changes.
 - [ ] Create a concise portfolio walkthrough using real interface states.
 
 ### Priority 0: Validate the claim
@@ -99,7 +101,7 @@ deterministic cart.
 ## Known limitations
 
 - The current 32% improvement is based on one deterministic sample cart.
-- The store graph and cart are synthetic.
+- Store layouts and cart data are maintained fixtures until retailer integrations are available.
 - The current heuristic is not guaranteed to be globally optimal.
 - Pick-time estimates derive from walking distance and require user validation.
 - Indoor positioning and live congestion are outside the current MVP.

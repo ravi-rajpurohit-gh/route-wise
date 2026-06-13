@@ -18,6 +18,7 @@ important technical choices.
 | [0002](0002-keep-optimizer-independent-from-ui.md) | Accepted | Keep optimizer independent from UI |
 | [0003](0003-use-transparent-baselines.md) | Accepted | Use transparent baselines and measurable claims |
 | [0004](0004-separate-cart-from-store-placement.md) | Accepted | Separate cart products from store placements |
+| [0005](0005-store-first-mobile-shopping-journey.md) | Accepted | Use a store-first mobile shopping journey |
 
 ## Creating an ADR
 

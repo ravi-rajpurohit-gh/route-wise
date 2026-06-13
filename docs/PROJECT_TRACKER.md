@@ -25,12 +25,28 @@ deterministic cart.
 | M1.1: Visual credibility pass | In progress | Operations-oriented interface, clear evidence hierarchy, responsive QA, no decorative product fiction |
 | M1.2: Multi-store foundation | Complete | Store-independent cart, versioned layouts, product placements, three validated fixture stores, functional store selector |
 | M1.3: Customer-friendly store map | Planned | Department zones, aisle geometry, landmarks, route overlay, and visual QA across stores |
+| M1.4: Mobile shopping foundation | Planned | Store-first search, complete cart management, shopping-order selection, local persistence, and mobile QA |
 | M2: Algorithm validation | In progress | Generated-cart benchmarks, 2-opt, exact small-cart comparison, performance report |
 | M3: Operational behavior | Planned | Unavailable items, substitutions, rerouting, multiple entrances, accessibility rules |
 | M4: Service architecture | Planned | Versioned API, persisted graphs, observability, validation, and performance budgets |
 | M5: Portfolio case study | Planned | Reproducible results, limitations, architecture narrative, and polished walkthrough |
 
 ## Current backlog
+
+### Priority 0: Mobile shopping foundation
+
+- [ ] Define responsive application shell and mobile navigation.
+- [ ] Add store-scoped product search and quick-add behavior.
+- [ ] Add active cart and saved-for-later states.
+- [ ] Add quantity changes, removal, save-for-later, restore, and clear-cart actions.
+- [ ] Add shopping-order choices: added order, aisle order, and recommended route.
+- [ ] Replace Skip with explicit save-for-later, remove, or cancel choices.
+- [ ] Add cannot-find as a separate active-shopping action.
+- [ ] Persist selected store, cart, saved items, and preferred order on the current device.
+- [ ] Add local-persistence versioning and migration behavior.
+- [ ] Verify all core flows at 320px, tablet, and desktop widths.
+- [ ] Enforce 44px minimum mobile touch targets.
+
 
 ### Priority 0: Multi-store foundation
 

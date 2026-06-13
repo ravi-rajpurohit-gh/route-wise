@@ -8,19 +8,22 @@ Fulfillment shoppers therefore spend avoidable time walking and backtracking.
 
 ## Target user
 
-The primary user is a delivery or fulfillment shopper picking one order inside
-a large-format retail store. Regular customers are a secondary audience.
+RouteWise serves both regular shoppers and delivery or fulfillment shoppers. They share one core store-aware cart and guided-shopping journey; delivery-focused efficiency capabilities may be introduced as optional features.
 
 ## Value proposition
 
 RouteWise sequences a cart into a practical entry-to-checkout path that reduces
 walking distance while respecting operational constraints.
 
+## Product journey
+
+The product uses a mobile-first, store-first journey: select a store, search products, build and manage a cart, choose a shopping order, preview the route, and complete a guided shopping session.
+
 ## MVP boundaries
 
 The MVP deliberately does not claim live indoor positioning. It assumes a
 known starting entrance, a versioned store graph, and item-to-location data.
-Users mark picks complete, which provides enough state for later rerouting.
+Users can mark items picked, report cannot-find states, save items for later, or remove items. Cart state persists on the current device. Prices, accounts, and cross-device sync are outside the current scope.
 
 ## Success metrics
 

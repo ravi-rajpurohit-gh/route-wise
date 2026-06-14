@@ -26,6 +26,12 @@ The initial product hypothesis is:
 - Guided picking with picked and cannot-find actions
 - Weighted graph routing with measurable aisle-order comparison
 
+## Live demonstration
+
+[Open RouteWise on Vercel](https://route-wise-mocha.vercel.app/)
+
+The deployed application is the product demonstration. The repository documentation records architecture, decisions, evidence, and remaining production work.
+
 ## Run locally
 
 ```bash

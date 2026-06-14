@@ -45,7 +45,7 @@ deterministic cart.
 - [x] Persist selected store, cart, saved items, and preferred order on the current device.
 - [ ] Add local-persistence migration behavior; incompatible versions currently reset safely.
 - [ ] Verify all core flows at 320px, tablet, and desktop widths.
-- [ ] Enforce 44px minimum mobile touch targets.
+- [x] Enforce 44px minimum mobile touch targets.
 
 
 ### Priority 0: Multi-store foundation
@@ -75,9 +75,11 @@ deterministic cart.
 - [x] Establish a restrained operations-oriented color and typography system.
 - [x] Present route performance and operational rules without internal development labels.
 - [ ] Verify desktop, tablet, and mobile layouts against documented screenshots.
-- [ ] Add keyboard focus states and automated accessibility checks.
+- [x] Add visible keyboard focus states.
+- [ ] Add automated accessibility checks.
 - [x] Add UI integration tests for store selection, pick progress, skip actions, and store changes.
-- [ ] Create a concise portfolio walkthrough using real interface states.
+- [x] Add an in-application product, method, evidence, and limitations walkthrough.
+- [ ] Create a longer portfolio case study using real interface states.
 
 ### Priority 0: Validate the claim
 

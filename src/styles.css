@@ -101,3 +101,46 @@ button { cursor: pointer; }
   .screen-title.row { align-items: end; }
   .mobile-nav { gap: 0; justify-content: space-around; }
 }
+
+
+/* Production presentation and accessibility checkpoint */
+:focus-visible { outline: 3px solid #ffbf1f; outline-offset: 3px; }
+button, select, a { -webkit-tap-highlight-color: transparent; }
+.cart-shortcut, .quantity button, .cart-line > button, .product-card > button, .compact-list button, .section-heading button, .secondary-action, .text-danger, .line-menu button, .next-item .cannot-find { min-width: 44px; min-height: 44px; }
+.store-picker { min-height: 48px; }
+.store-picker select { min-height: 32px; }
+.mobile-nav { height: 72px; }
+.mobile-nav button { min-width: 64px; min-height: 56px; border-radius: 8px; }
+.mobile-nav button:hover, .mobile-nav button:focus-visible { background: #edf3fb; }
+.compact-empty { min-height: 180px; margin-top: 16px; }
+.completion-state { display: grid; justify-items: start; gap: 8px; margin-bottom: 14px; padding: 22px; border: 1px solid #9fd4be; border-radius: 14px; background: #edf9f4; color: #105c43; }
+.completion-state small, .about-hero small, .about-grid small, .formula span, .evidence-grid span { font-size: 9px; font-weight: 800; letter-spacing: .8px; text-transform: uppercase; }
+.completion-state h2, .completion-state p { margin: 0; }
+.completion-state p { max-width: 520px; color: #476d60; font-size: 11px; line-height: 1.6; }
+.completion-state button { min-height: 44px; margin-top: 6px; padding: 0 16px; border: 0; border-radius: 8px; background: #16825d; color: white; font-weight: 800; }
+.about-screen { display: grid; gap: 18px; }
+.about-hero { display: grid; gap: 12px; padding: clamp(24px, 5vw, 54px); border-radius: 18px; background: var(--navy); color: white; }
+.about-hero h1 { max-width: 800px; margin: 0; font-size: clamp(32px, 6vw, 64px); line-height: 1; letter-spacing: -3px; }
+.about-hero p { max-width: 730px; margin: 0; color: #c7d3df; font-size: 13px; line-height: 1.7; }
+.about-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+.about-links a { min-height: 44px; display: flex; align-items: center; gap: 7px; padding: 0 14px; border: 1px solid #60758b; border-radius: 8px; color: white; text-decoration: none; font-size: 10px; font-weight: 800; }
+.about-links a:first-child { border-color: #ffd04a; background: #ffd04a; color: var(--navy); }
+.about-grid, .evidence-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.about-grid article, .method-section, .evidence-section { padding: 20px; border: 1px solid var(--line); border-radius: 14px; background: white; }
+.about-grid h2, .method-section h2, .evidence-section h2 { margin: 5px 0 8px; color: var(--navy); font-size: 18px; }
+.about-grid p, .evidence-section > p { margin: 0; color: var(--muted); font-size: 11px; line-height: 1.65; }
+.method-section .screen-title, .evidence-section .screen-title { margin-bottom: 14px; }
+.method-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 0; padding: 0; list-style: none; }
+.method-steps li { display: flex; gap: 10px; padding: 14px; border-radius: 10px; background: #f4f7fa; }
+.method-steps b { width: 26px; height: 26px; flex: 0 0 auto; display: grid; place-items: center; border-radius: 50%; background: var(--blue); color: white; font-size: 10px; }
+.method-steps div { display: grid; gap: 5px; }
+.method-steps strong { font-size: 11px; }
+.method-steps span { color: var(--muted); font-size: 9px; line-height: 1.5; }
+.formula { display: grid; gap: 6px; margin-top: 12px; padding: 16px; border-left: 4px solid #ffd04a; background: var(--navy); color: white; }
+.formula code { overflow-wrap: anywhere; color: #ffd04a; font-size: 14px; }
+.formula small { color: #b9c7d4; font-size: 9px; }
+.evidence-grid { margin-bottom: 14px; }
+.evidence-grid div { display: grid; gap: 6px; padding: 14px; border-radius: 10px; background: #f4f7fa; }
+.evidence-grid strong { color: var(--navy); font-size: 13px; }
+@media (max-width: 780px) { .about-grid, .method-steps, .evidence-grid { grid-template-columns: 1fr; } .about-hero h1 { letter-spacing: -2px; } }
+@media (max-width: 420px) { .mobile-nav { overflow-x: auto; justify-content: flex-start; padding-inline: 6px; } .mobile-nav button { flex: 1 0 62px; } .about-hero { padding: 22px; } }

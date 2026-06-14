@@ -43,6 +43,14 @@ product, not a generic SaaS landing page or speculative consumer application.
 - The interface remains usable at desktop and mobile widths.
 - Visual changes do not alter optimizer behavior or reported calculations.
 
+## Production presentation checkpoint
+
+- Added a concise About experience for recruiters, hiring managers, and product reviewers.
+- Exposed problem, solution, target users, routing method, measurable evidence, and honest limitations.
+- Added visible focus treatment and consistent 44px minimum controls.
+- Added responsive stacking for the product narrative and five-item mobile navigation.
+- Added empty-search and completed-shopping states.
+
 ## Remaining work
 
 - Document desktop, tablet, and mobile screenshots.

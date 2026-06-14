@@ -32,9 +32,16 @@ and will use semantic versioning once releases begin.
 - Added-order, aisle-order, and recommended-route shopping sequences.
 - Versioned current-device persistence for store, cart, saved items, and preferred order.
 - Cart, persistence, and mobile shopping journey tests.
+- In-application About walkthrough covering the problem, solution, target users, route method, evidence, and limitations.
+- Production metadata and links to the live deployment and source repository.
+- Empty-search and completed-shopping workflow states.
+- Visible keyboard focus treatment, meaningful control labels, active-navigation semantics, and 44px minimum interaction targets.
 - Unavailable-item display and UI integration tests.
 
 ### Fixed
+
+- Added clear-cart confirmation to reduce destructive-action mistakes.
+- Corrected responsive navigation and About-layout behavior at narrow widths.
 
 - Corrected displayed route metrics by applying an explicit map-to-feet scale.
 - Added TypeScript-aware linting after the initial configuration failed to

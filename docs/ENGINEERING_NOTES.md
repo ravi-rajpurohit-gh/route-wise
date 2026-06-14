@@ -214,3 +214,32 @@ Turn the route optimizer into a store-first shopping journey that works for regu
 - Enforce 44px minimum touch targets throughout the interface.
 - Add explicit migrations when a second persisted-state schema is introduced.
 - Replace the node-derived route graphic with a customer-friendly store map.
+
+
+## 2026-06-14: Production presentation and accessibility checkpoint
+
+### Objective
+
+Make the deployed proof of concept understandable to a hiring manager without requiring them to read the repository first, while improving interaction quality for mobile and keyboard users.
+
+### Implementation
+
+- Added an About navigation destination with the problem, solution, target users, route method, objective function, current evidence, and limitations.
+- Added links to the deployed application and source repository.
+- Added production search metadata and Open Graph metadata.
+- Added a no-results search state, clear-cart confirmation, and completed-shopping state.
+- Added visible keyboard focus treatment, meaningful product and cart control labels, active-navigation semantics, and 44px minimum interaction targets.
+- Added narrow-screen behavior for the About content and five-item navigation.
+- Added integration coverage for the About narrative, empty search results, and completed shopping.
+
+### Verification
+
+- 30 automated tests pass across seven test files.
+- ESLint, TypeScript production build, and whitespace validation pass.
+- Production build completes without CSS warnings.
+
+### Remaining work
+
+- Capture and review exact 320px, tablet, and desktop screenshots when browser automation is available.
+- Add automated accessibility scanning and resolve findings.
+- Create the longer external portfolio case study using measured benchmark results and interface screenshots.

@@ -24,12 +24,12 @@ deterministic cart.
 | M1: End-to-end vertical slice | Complete | Store graph, optimizer, baseline, interactive UI, tests, and scaled metrics |
 | M1.1: Visual credibility pass | In progress | Operations-oriented interface, clear evidence hierarchy, responsive QA, no decorative product fiction |
 | M1.2: Multi-store foundation | Complete | Store-independent cart, versioned layouts, product placements, three validated fixture stores, functional store selector |
-| M1.3: Customer-friendly store map | Planned | Department zones, aisle geometry, landmarks, route overlay, and visual QA across stores |
+| M1.3: Customer-friendly store map | Complete | Department zones, aisle geometry, landmarks, route overlay, and visual QA across stores |
 | M1.4: Mobile shopping foundation | In progress | Store-first search, complete cart management, shopping-order selection, local persistence, and mobile QA |
 | M2: Algorithm validation | In progress | Generated-cart benchmarks, 2-opt, exact small-cart comparison, performance report |
 | M3: Operational behavior | Planned | Unavailable items, substitutions, rerouting, multiple entrances, accessibility rules |
 | M4: Service architecture | Planned | Versioned API, persisted graphs, observability, validation, and performance budgets |
-| M5: Portfolio case study | Planned | Reproducible results, limitations, architecture narrative, and polished walkthrough |
+| M5: Portfolio case study | In progress | Reproducible results, limitations, architecture narrative, and polished walkthrough |
 
 ## Current backlog
 
@@ -44,7 +44,8 @@ deterministic cart.
 - [x] Add cannot-find as a separate active-shopping action.
 - [x] Persist selected store, cart, saved items, and preferred order on the current device.
 - [ ] Add local-persistence migration behavior; incompatible versions currently reset safely.
-- [ ] Verify all core flows at 320px, tablet, and desktop widths.
+- [x] Verify responsive route and navigation behavior at 320px, 768px, and 1280px without document-level horizontal overflow.
+- [ ] Capture documented screenshots for all core flows at mobile, tablet, and desktop widths.
 - [x] Enforce 44px minimum mobile touch targets.
 
 
@@ -57,7 +58,7 @@ deterministic cart.
 - [x] Map the shared sample cart to each store with different placements.
 - [x] Validate graph, placement, entry, checkout, and availability references.
 - [x] Define an initial node-derived visualization contract for store-specific layouts.
-- [ ] Replace the routing diagram with a customer-friendly store-map visualization.
+- [x] Replace the routing diagram with a customer-friendly store-map visualization.
 - [x] Refactor `StoreMap` to receive the selected layout instead of `sampleStore`.
 - [x] Replace the static store control with a functional store selector.
 - [x] Recompute route, metrics, map, and item sequence on store change.
@@ -76,10 +77,11 @@ deterministic cart.
 - [x] Present route performance and operational rules without internal development labels.
 - [ ] Verify desktop, tablet, and mobile layouts against documented screenshots.
 - [x] Add visible keyboard focus states.
-- [ ] Add automated accessibility checks.
+- [x] Add automated accessibility checks for serious and critical violations.
 - [x] Add UI integration tests for store selection, pick progress, skip actions, and store changes.
 - [x] Add an in-application product, method, evidence, and limitations walkthrough.
-- [ ] Create a longer portfolio case study using real interface states.
+- [x] Create a longer portfolio case study with architecture, decisions, evidence, and production path.
+- [ ] Add verified interface screenshots and broader benchmark results to the case study.
 
 ### Priority 0: Validate the claim
 
@@ -106,7 +108,7 @@ deterministic cart.
 - [x] Add CI quality gates.
 - [ ] Add performance budgets and benchmark regression checks.
 - [ ] Define observability and error taxonomy.
-- [ ] Add accessibility and responsive interaction testing.
+- [x] Add accessibility and responsive interaction contract testing.
 
 ## Decisions pending
 

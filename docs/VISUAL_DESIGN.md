@@ -53,7 +53,8 @@ product, not a generic SaaS landing page or speculative consumer application.
 
 ## Remaining work
 
-- Document desktop, tablet, and mobile screenshots.
+- Document desktop, tablet, and mobile screenshots; interactive overflow checks pass at 320px, 768px, and 1280px.
+- Refine department geometry using retailer-authored map data when available.
 - Add complete keyboard focus treatment.
 - Run automated accessibility checks.
 - Validate terminology and density with fulfillment users.

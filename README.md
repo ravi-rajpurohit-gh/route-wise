@@ -60,6 +60,7 @@ RouteWise lets a shopper select a store, search its available products, manage a
 | [Decision records](docs/decisions/README.md) | Durable records for important technical decisions |
 | [Contributing guide](CONTRIBUTING.md) | Engineering workflow and quality expectations |
 | [Changelog](CHANGELOG.md) | User-visible and operationally meaningful changes |
+| [Portfolio case study](docs/CASE_STUDY.md) | Problem, solution, architecture, evidence, limitations, and production path |
 
 ## Status
 

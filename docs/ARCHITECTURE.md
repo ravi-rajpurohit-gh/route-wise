@@ -86,7 +86,7 @@ flowchart LR
 
 ## Testing strategy
 
-Current tests verify core invariants on a deterministic fixture. Planned
+Current tests verify routing invariants, multi-store isolation, cart and guided-shopping workflows, serious and critical accessibility violations, responsive CSS contracts, and the shopper-oriented map. Planned
 coverage includes disconnected graphs, duplicate product locations, generated
 carts, exact-solver comparisons, performance budgets, and dynamic rerouting.
 

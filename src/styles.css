@@ -67,15 +67,36 @@ button { cursor: pointer; }
 .next-item span { color: #b9c7d4; font-size: 10px; }
 .next-item button { margin-top: 7px; }
 .next-item .cannot-find { min-height: 42px; border: 1px solid #60758b; border-radius: 7px; background: transparent; color: white; font-size: 9px; font-weight: 700; }
-.route-map { padding: 10px; border: 1px solid var(--line); border-radius: 14px; background: white; overflow: hidden; }
+.route-map { margin: 0; padding: 10px; border: 1px solid var(--line); border-radius: 14px; background: white; overflow: hidden; }
+.route-map figcaption { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 8px 8px 14px; }
+.route-map figcaption > div:first-child { display: grid; gap: 3px; }
+.route-map figcaption small { color: var(--muted); font-size: 8px; font-weight: 800; letter-spacing: .7px; text-transform: uppercase; }
+.route-map figcaption strong { color: var(--navy); font-size: 13px; }
+.map-legend { display: flex; flex-wrap: wrap; gap: 12px; color: var(--muted); font-size: 8px; font-weight: 700; }
+.map-legend span { display: flex; align-items: center; gap: 5px; }
+.map-legend i { width: 18px; height: 8px; display: inline-block; }
+.legend-route { border-top: 4px solid var(--blue); }
+.legend-stop { border: 2px solid var(--blue); border-radius: 50%; background: white; }
 .route-map svg { display: block; width: 100%; max-height: 500px; }
-.floor { fill: #f8fafb; stroke: #c5d0da; }
-.walkway { stroke: #dde4ea; stroke-width: 2; stroke-dasharray: 4 5; }
-.location-block { fill: #e8edf2; stroke: #bdc9d4; }
-.location-label { fill: #53697f; font: 700 7px Inter; }
-.active-route { fill: none; stroke: var(--blue); stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
+.floor { fill: #f7f2e9; stroke: #b8aa98; stroke-width: 2; }
+.department { stroke-width: 1.5; }
+.produce-zone { fill: #e1f2e8; stroke: #9ac8ad; }
+.dairy-zone { fill: #e9f1fb; stroke: #aac4e3; }
+.frozen-zone { fill: #e8f4f6; stroke: #a7ced4; }
+.department-zones text { fill: #38566a; font: 800 9px Inter; letter-spacing: .3px; text-transform: uppercase; }
+.aisle-fixtures rect { fill: #e2d7c8; stroke: #b8aa98; stroke-width: 1.5; }
+.aisle-fixtures text { fill: #6d5e4d; font: 800 8px Inter; writing-mode: vertical-rl; }
+.store-landmarks rect { fill: #d7dee4; stroke: #9baab6; }
+.store-landmarks text { fill: #42586b; font: 800 9px Inter; text-transform: uppercase; }
+.store-landmarks .front-label { fill: #7b6f61; font-size: 8px; letter-spacing: 1px; }
+.active-route { fill: none; stroke: var(--blue); stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; }
+.route-halo { stroke: white; stroke-width: 12; opacity: .9; }
 .route-stop { fill: white; stroke: var(--blue); stroke-width: 3; }
-.route-stop-label { fill: var(--navy); font: 700 8px Inter; }
+.route-stop-label { fill: var(--navy); font: 800 9px Inter; }
+.entry-marker circle { fill: #16825d; stroke: white; stroke-width: 3; }
+.checkout-marker circle { fill: var(--navy); stroke: white; stroke-width: 3; }
+.entry-marker text, .checkout-marker text { fill: white; font: 800 7px Inter; }
+.map-note { margin: 8px; color: var(--muted); font-size: 9px; line-height: 1.5; }
 .route-sequence { margin-top: 12px; border: 1px solid var(--line); border-radius: 12px; background: white; overflow: hidden; }
 .route-sequence > span { display: block; padding: 11px; color: var(--muted); font-size: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: .7px; }
 .route-sequence > div { display: grid; grid-template-columns: 24px 1fr auto; gap: 8px; padding: 10px 12px; border-top: 1px solid var(--line); font-size: 10px; }
@@ -144,3 +165,4 @@ button, select, a { -webkit-tap-highlight-color: transparent; }
 .evidence-grid strong { color: var(--navy); font-size: 13px; }
 @media (max-width: 780px) { .about-grid, .method-steps, .evidence-grid { grid-template-columns: 1fr; } .about-hero h1 { letter-spacing: -2px; } }
 @media (max-width: 420px) { .mobile-nav { overflow-x: auto; justify-content: flex-start; padding-inline: 6px; } .mobile-nav button { flex: 1 0 62px; } .about-hero { padding: 22px; } }
+@media (max-width: 680px) { .route-map figcaption { align-items: flex-start; flex-direction: column; } }

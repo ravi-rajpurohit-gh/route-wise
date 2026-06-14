@@ -36,6 +36,9 @@ and will use semantic versioning once releases begin.
 - Production metadata and links to the live deployment and source repository.
 - Empty-search and completed-shopping workflow states.
 - Visible keyboard focus treatment, meaningful control labels, active-navigation semantics, and 44px minimum interaction targets.
+- Customer-friendly store map with departments, store-specific aisle fixtures, landmarks, entry, checkout, legend, and numbered route stops.
+- Automated accessibility and responsive-contract tests in the standard quality gate.
+- Portfolio case study covering the problem, solution, architecture, evidence, limitations, and production path.
 - Unavailable-item display and UI integration tests.
 
 ### Fixed

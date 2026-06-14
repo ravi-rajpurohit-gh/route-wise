@@ -243,3 +243,34 @@ Make the deployed proof of concept understandable to a hiring manager without re
 - Capture and review exact 320px, tablet, and desktop screenshots when browser automation is available.
 - Add automated accessibility scanning and resolve findings.
 - Create the longer external portfolio case study using measured benchmark results and interface screenshots.
+
+
+## 2026-06-14: Customer-friendly map and automated UI quality gates
+
+### Objective
+
+Translate the route graph into a shopper-oriented map, make accessibility and responsive requirements executable in CI, and create a recruiter-ready case study.
+
+### Implementation
+
+- Extracted the map presentation into a dedicated `StoreMap` component.
+- Replaced the graph-style drawing with department zones, store-specific aisle fixtures, front-of-store orientation, entry and checkout landmarks, a route legend, and numbered stops.
+- Preserved the versioned walkable graph as the route-calculation source of truth.
+- Added an axe-core scan for automatically detectable serious and critical accessibility violations.
+- Added responsive CSS contract tests for breakpoints, 320px support, touch targets, and overflow safeguards.
+- Added a portfolio case study documenting the product hypothesis, technical approach, architecture, decisions, evidence, limitations, and production path.
+
+### Verification
+
+- 34 automated tests pass across nine test files.
+- Live browser inspection confirms no document-level horizontal overflow at 320px, 768px, and 1280px.
+- Live browser inspection confirms store-specific route maps for all three fixture stores, including their A, B, and N aisle-label systems.
+- ESLint, TypeScript production build, and whitespace validation pass.
+- The standard quality gate now includes accessibility and responsive-contract coverage.
+- Runtime dependency audit remains the production security gate; development-tool advisories are documented and were not force-upgraded.
+
+### Remaining work
+
+- Capture and review exact mobile, tablet, and desktop screenshots; live DOM and overflow inspection now passes at 320px, 768px, and 1280px, but screenshot capture timed out.
+- Add rendered color-contrast validation in a real browser.
+- Benchmark generated carts and stronger optimization strategies before making a broader savings claim.

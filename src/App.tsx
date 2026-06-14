@@ -14,7 +14,7 @@ import {
   Search,
   ShoppingCart,
 } from "lucide-react";
-import type { Product, ResolvedPickItem, RouteContext, RouteResult, Store } from "./domain";
+import type { Product, ResolvedPickItem, Store } from "./domain";
 import { placements, products } from "./data/fixtures";
 import { addedOrderRoute, aisleOrderRoute, optimizedRoute } from "./optimizer";
 import { defaultShoppingState, loadShoppingState, saveShoppingState } from "./persistence";
@@ -35,6 +35,7 @@ import {
   type ShoppingCart as ShoppingCartState,
 } from "./shoppingCart";
 import { fixtureRepository } from "./storeData";
+import { StoreMap } from "./StoreMap";
 
 type Tab = "shop" | "search" | "cart" | "route" | "about";
 
@@ -44,29 +45,6 @@ const orderLabels: Record<CartOrdering, string> = {
   "aisle-order": "Aisle order",
   recommended: "Recommended route",
 };
-
-function StoreMap({ route, context }: { route: RouteResult; context: RouteContext }) {
-  const nodeById = new Map(context.nodes.map((node) => [node.id, node]));
-  const points = route.path.map((id) => nodeById.get(id)).filter(Boolean).map((node) => `${node!.x},${node!.y}`).join(" ");
-  return (
-    <div className="route-map">
-      <svg viewBox="0 0 670 610" role="img" aria-label="Shopping route">
-        <rect x="32" y="34" width="606" height="544" rx="16" className="floor" />
-        {context.edges.map((edge) => {
-          const from = nodeById.get(edge.from)!;
-          const to = nodeById.get(edge.to)!;
-          return <line key={`${edge.from}-${edge.to}`} x1={from.x} y1={from.y} x2={to.x} y2={to.y} className="walkway" />;
-        })}
-        {context.nodes.filter((node) => node.kind === "item").map((node) => <g key={node.id}><rect x={node.x - 22} y={node.y - 14} width="44" height="28" rx="5" className="location-block" /><text x={node.x} y={node.y + 3} textAnchor="middle" className="location-label">{node.label}</text></g>)}
-        <polyline points={points} className="active-route" />
-        {route.stops.slice(1, -1).map((id, index) => {
-          const node = nodeById.get(id);
-          return node ? <g key={id}><circle cx={node.x} cy={node.y} r="15" className="route-stop" /><text x={node.x} y={node.y + 4} textAnchor="middle" className="route-stop-label">{index + 1}</text></g> : null;
-        })}
-      </svg>
-    </div>
-  );
-}
 
 function StorePicker({ stores, value, onChange }: { stores: Store[]; value: string; onChange: (id: string) => void }) {
   return <label className="store-picker"><MapPin size={18} /><span><small>Shopping at</small><select aria-label="Store" value={value} onChange={(event) => onChange(event.target.value)}>{stores.map((store) => <option key={store.id} value={store.id}>{store.name} · {store.location}</option>)}</select></span></label>;
@@ -156,7 +134,7 @@ function App() {
 
         {tab === "route" && plan && session && activeSessionRoute ? <section className="screen route-screen"><div className="screen-title row"><div><small>{session.active ? "Shopping in progress" : orderLabels[cart.ordering]}</small><h1>{session.active ? `${pending.length} items remaining` : "Route preview"}</h1></div><button className="secondary-action" onClick={() => { setSession(createPickSession(plan.resolvedCart.items, plan.context.startNodeId)); setTab("cart"); }}>Edit cart</button></div>
           {shoppingComplete ? <article className="completion-state"><Check size={24} /><small>Shopping complete</small><h2>All route items are resolved</h2><p>Continue to checkout, or return to the cart to review items marked as unavailable.</p><button onClick={() => { setSession(createPickSession(plan.resolvedCart.items, plan.context.startNodeId)); setTab("shop"); }}>Finish trip</button></article> : nextItem ? <article className="next-item"><small>Next item · {nextItem.aisleLabel}</small><h2>{nextItem.name}</h2><span>{nextItem.category}</span><button onClick={() => setSession(markItemPicked(session, nextItem))}><Check size={18} /> Mark picked</button><button className="cannot-find" onClick={() => setSession(markItemSkipped(session, nextItem))}>Cannot find item</button></article> : null}
-          <StoreMap route={activeSessionRoute} context={session.active ? { ...plan.context, startNodeId: session.currentNodeId } : plan.context} />
+          <StoreMap route={activeSessionRoute} context={session.active ? { ...plan.context, startNodeId: session.currentNodeId } : plan.context} store={plan.resolvedCart.store} />
           {!session.active ? <div className="route-sequence"><span>Shopping order</span>{orderedItems.map((item, index) => <div key={item.productId}><b>{index + 1}</b><strong>{item.name}</strong><small>{item.aisleLabel}</small></div>)}</div> : null}
           <button className="wide-action sticky-action" onClick={() => setSession(session.active ? createPickSession(plan.resolvedCart.items, plan.context.startNodeId) : startPickSession(session))}><Navigation size={18} /> {session.active ? "End shopping session" : "Start shopping"}</button>
         </section> : null}

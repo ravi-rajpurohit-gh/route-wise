@@ -89,6 +89,18 @@ describe("mobile shopping journey", () => {
     await user.click(await screen.findByRole("button", { name: "Mark picked" }));
     expect(await screen.findByText("All route items are resolved")).toBeTruthy();
   });
+
+  it("renders a customer-friendly store map with landmarks and a legend", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    await navigateTo(user, "Search");
+    await user.click(screen.getByRole("button", { name: "Add Organic Bananas" }));
+    await navigateTo(user, "Route");
+    expect(await screen.findByText("Store map")).toBeTruthy();
+    expect(screen.getByText("Your route")).toBeTruthy();
+    expect(screen.getByText("Pick stop")).toBeTruthy();
+    expect(screen.getByText(/Department zones and aisle fixtures orient/)).toBeTruthy();
+  });
 });
 
 function productsFirstName() {

@@ -51,24 +51,25 @@ Shop | Search | Cart | Route
 
 ### Shop
 
-- Selected-store summary and change-store action
-- Recent or saved items
+- Lightweight trip overview, selected store, preferred shopping order, and estimated route impact
+- Entry points to product search, full cart management, and route review
 - Cart progress when a shopping session is active
+- Does not duplicate the full cart-management list
 
 ### Search
 
 - Store-scoped product search
 - Availability and aisle label
-- Quantity selector and add-to-cart action
+- Inline add and quantity controls that reflect active-cart state
 - Saved-for-later action
 
 ### Cart
 
-- Active items
+- Single full-management surface for active items
 - Saved-for-later items
 - Unavailable or unresolved items
 - Quantity changes and removal
-- Shopping-order selection
+- Shopping-order selection that visibly reorders the cart list and route preview
 
 ### Route
 

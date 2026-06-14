@@ -274,3 +274,39 @@ Translate the route graph into a shopper-oriented map, make accessibility and re
 - Capture and review exact mobile, tablet, and desktop screenshots; live DOM and overflow inspection now passes at 320px, 768px, and 1280px, but screenshot capture timed out.
 - Add rendered color-contrast validation in a real browser.
 - Benchmark generated carts and stronger optimization strategies before making a broader savings claim.
+
+## 2026-06-14: Cart ordering and shopping-surface UX refinement
+
+### Problem
+
+The selected shopping order changed the route preview but did not reorder the
+visible Cart list. Search used repeated Add buttons instead of reflecting
+quantities, and Shop duplicated portions of Cart management. Several controls
+also used inconsistent rectangular styling and terminology.
+
+### Product decision
+
+- Shop is a lightweight trip overview, not a duplicate cart.
+- Search is the selected-store catalog with inline active-cart quantities.
+- Cart is the single full-management surface and visibly follows the selected
+  shopping order.
+- Route remains the preview and guided-shopping surface.
+
+### Implementation
+
+- Reordered visible Cart lines using added, aisle, or recommended route order.
+- Added numbered cart positions and explanatory shopping-order copy.
+- Replaced Search Add another behavior with inline decrease, quantity, and
+  increase controls.
+- Reframed Shop as a trip overview showing store, order strategy, and estimated
+  savings.
+- Tightened the selected-store control and standardized rounded controls,
+  sentence casing, colors, and singular/plural item labels.
+
+### Verification
+
+- 36 automated tests pass across nine test files.
+- Live browser validation confirms visible cart reordering, Search quantity
+  controls, and no horizontal overflow at 320px.
+- ESLint, TypeScript production build, accessibility scan, responsive
+  contracts, and whitespace validation pass.

@@ -46,12 +46,20 @@ const orderLabels: Record<CartOrdering, string> = {
   recommended: "Recommended route",
 };
 
-function StorePicker({ stores, value, onChange }: { stores: Store[]; value: string; onChange: (id: string) => void }) {
-  return <label className="store-picker"><MapPin size={18} /><span><small>Shopping at</small><select aria-label="Store" value={value} onChange={(event) => onChange(event.target.value)}>{stores.map((store) => <option key={store.id} value={store.id}>{store.name} · {store.location}</option>)}</select></span></label>;
+function itemCountLabel(count: number) {
+  return `${count} ${count === 1 ? "item" : "items"}`;
 }
 
-function ProductCard({ product, aisleLabel, available, inCart, onAdd }: { product: Product; aisleLabel?: string; available: boolean; inCart: boolean; onAdd: () => void }) {
-  return <article className="product-card"><div className="product-art">{product.name.slice(0, 1)}</div><div className="product-copy"><strong>{product.name}</strong><span>{product.category}</span><small>{available ? `${aisleLabel} · In stock` : "Unavailable at this store"}</small></div><button aria-label={(inCart ? "Add another " : "Add ") + product.name} onClick={onAdd} disabled={!available}>{inCart ? "Add another" : "Add"}</button></article>;
+function StorePicker({ stores, value, onChange }: { stores: Store[]; value: string; onChange: (id: string) => void }) {
+  return <label className="store-picker"><MapPin size={18} /><span><small>Selected store</small><select aria-label="Store" value={value} onChange={(event) => onChange(event.target.value)}>{stores.map((store) => <option key={store.id} value={store.id}>{store.name} · {store.location}</option>)}</select></span></label>;
+}
+
+function QuantityControl({ product, quantity, onChange }: { product: Product; quantity: number; onChange: (quantity: number) => void }) {
+  return <div className="quantity" aria-label={`${product.name} quantity`}><button aria-label={`Decrease ${product.name}`} onClick={() => onChange(quantity - 1)}><Minus size={14} /></button><span aria-live="polite">{quantity}</span><button aria-label={`Increase ${product.name}`} onClick={() => onChange(quantity + 1)}><Plus size={14} /></button></div>;
+}
+
+function ProductCard({ product, aisleLabel, available, quantity, onAdd, onQuantityChange }: { product: Product; aisleLabel?: string; available: boolean; quantity: number; onAdd: () => void; onQuantityChange: (quantity: number) => void }) {
+  return <article className="product-card"><div className="product-art">{product.name.slice(0, 1)}</div><div className="product-copy"><strong>{product.name}</strong><span>{product.category}</span><small>{available ? `${aisleLabel} · In stock` : "Unavailable at this store"}</small></div>{quantity > 0 ? <QuantityControl product={product} quantity={quantity} onChange={onQuantityChange} /> : <button className="add-product" aria-label={`Add ${product.name}`} onClick={onAdd} disabled={!available}>Add</button>}</article>;
 }
 
 function App() {
@@ -79,7 +87,6 @@ function App() {
 
   const active = activeLines(cart);
   const saved = savedLines(cart);
-  const activeIds = new Set(active.map((line) => line.productId));
   const placementByProduct = new Map(plan?.resolvedCart.items.map((item) => [item.productId, item]) ?? []);
   const storePlacements = new Map(placements.filter((placement) => placement.storeId === selectedStoreId).map((placement) => [placement.productId, placement]));
   const searchResults = products.filter((product) => `${product.name} ${product.category}`.toLowerCase().includes(query.toLowerCase()));
@@ -90,6 +97,12 @@ function App() {
     const byNode = new Map(plan.resolvedCart.items.map((item) => [item.nodeId, item]));
     return route.stops.map((id) => byNode.get(id)).filter((item): item is ResolvedPickItem => Boolean(item));
   }, [cart.ordering, plan]);
+  const orderedActiveLines = useMemo(() => {
+    const activeByProduct = new Map(active.map((line) => [line.productId, line]));
+    const ordered = orderedItems.map((item) => activeByProduct.get(item.productId)).filter((line): line is ShoppingCartState["lines"][number] => Boolean(line));
+    const orderedIds = new Set(ordered.map((line) => line.id));
+    return [...ordered, ...active.filter((line) => !orderedIds.has(line.id))];
+  }, [active, orderedItems]);
   const previewRoute = useMemo(() => {
     if (!plan) return null;
     if (cart.ordering === "added-order") return addedOrderRoute(plan.context, plan.resolvedCart.items);
@@ -112,21 +125,21 @@ function App() {
 
   return (
     <div className="mobile-app">
-      <header className="app-header"><a className="wordmark" href="#">RouteWise</a><StorePicker stores={stores} value={selectedStoreId} onChange={changeStore} /><button aria-label={"Open cart with " + active.length + " active items"} className="cart-shortcut" onClick={() => setTab("cart")}><ShoppingCart size={19} /><span>{active.length}</span></button></header>
+      <header className="app-header"><a className="wordmark" href="#">RouteWise</a><StorePicker stores={stores} value={selectedStoreId} onChange={changeStore} /><button aria-label={"Open cart with " + itemCountLabel(active.length)} className="cart-shortcut" onClick={() => setTab("cart")}><ShoppingCart size={19} /><span>{active.length}</span></button></header>
       <main className="app-main">
         {tab === "shop" ? <section className="screen">
           <div className="welcome"><span>Plan less. Pick faster.</span><h1>What do you need today?</h1><button onClick={() => setTab("search")}><Search size={18} /> Search products</button></div>
-          <div className="section-heading"><div><small>Your cart</small><h2>{active.length} active items</h2></div><button onClick={() => setTab("cart")}>Manage <ChevronRight size={15} /></button></div>
-          {active.length === 0 ? <div className="empty-state"><ShoppingCart /><strong>Your cart is empty</strong><span>Add products from the selected store to build your route.</span><button onClick={() => setTab("search")}>Browse products</button></div> : <div className="compact-list">{active.slice(0, 4).map((line) => <div key={line.id}><strong>{productById.get(line.productId)?.name}</strong><span>Qty {line.quantity}</span></div>)}</div>}
+          <div className="section-heading"><div><small>Trip overview</small><h2>{itemCountLabel(active.length)} ready to plan</h2></div><button onClick={() => setTab("cart")}>Manage cart <ChevronRight size={15} /></button></div>
+          {active.length === 0 ? <div className="empty-state"><ShoppingCart /><strong>Your cart is empty</strong><span>Add products from the selected store to build your route.</span><button onClick={() => setTab("search")}>Browse products</button></div> : <div className="trip-summary"><div><span>Shopping order</span><strong>{orderLabels[cart.ordering]}</strong></div><div><span>Selected store</span><strong>{plan?.resolvedCart.store.name}</strong></div><div><span>Estimated savings</span><strong>{plan?.savingsPercent ?? 0}% vs. aisle order</strong></div></div>}
           {active.length > 0 ? <button className="wide-action" onClick={() => setTab("route")}><Navigation size={18} /> Review shopping route</button> : null}
         </section> : null}
 
-        {tab === "search" ? <section className="screen"><div className="screen-title"><small>Search</small><h1>Add products</h1></div><label className="search-field"><Search size={18} /><input autoFocus aria-label="Search products" placeholder="Search products or categories" value={query} onChange={(event) => setQuery(event.target.value)} /></label><div className="product-grid">{searchResults.map((product) => <ProductCard key={product.id} product={product} aisleLabel={storePlacements.get(product.id)?.aisleLabel} available={storePlacements.get(product.id)?.status === "available"} inCart={activeIds.has(product.id)} onAdd={() => setCart(addProduct(cart, product))} />)}</div>{searchResults.length === 0 ? <div className="empty-state compact-empty"><Search /><strong>No products found</strong><span>Try a product name or category available in the selected store catalog.</span></div> : null}</section> : null}
+        {tab === "search" ? <section className="screen"><div className="screen-title"><small>Selected-store catalog</small><h1>Find products</h1></div><label className="search-field"><Search size={18} /><input autoFocus aria-label="Search products" placeholder="Search products or categories" value={query} onChange={(event) => setQuery(event.target.value)} /></label><div className="product-grid">{searchResults.map((product) => { const line = active.find((activeLine) => activeLine.productId === product.id); return <ProductCard key={product.id} product={product} aisleLabel={storePlacements.get(product.id)?.aisleLabel} available={storePlacements.get(product.id)?.status === "available"} quantity={line?.quantity ?? 0} onAdd={() => setCart(addProduct(cart, product))} onQuantityChange={(quantity) => setCart(line ? updateQuantity(cart, line.id, quantity) : addProduct(cart, product))} />; })}</div>{searchResults.length === 0 ? <div className="empty-state compact-empty"><Search /><strong>No products found</strong><span>Try a product name or category available in the selected store catalog.</span></div> : null}</section> : null}
 
-        {tab === "cart" ? <section className="screen"><div className="screen-title row"><div><small>Cart</small><h1>{active.length} active items</h1></div>{active.length ? <button className="text-danger" onClick={clearCart}>Clear cart</button> : null}</div>
-          <div className="order-control"><span>Shopping order</span><select aria-label="Shopping order" value={cart.ordering} onChange={(event) => setCart(setCartOrdering(cart, event.target.value as CartOrdering))}>{Object.entries(orderLabels).map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></div>
-          <div className="cart-list">{active.map((line) => { const product = productById.get(line.productId)!; const placement = placementByProduct.get(line.productId); return <article key={line.id} className="cart-line"><div className="product-art">{product.name[0]}</div><div><strong>{product.name}</strong><span>{placement?.aisleLabel ?? "Needs attention"}</span></div><div className="quantity"><button aria-label={`Decrease ${product.name}`} onClick={() => setCart(updateQuantity(cart, line.id, line.quantity - 1))}><Minus size={14} /></button><span>{line.quantity}</span><button aria-label={`Increase ${product.name}`} onClick={() => setCart(updateQuantity(cart, line.id, line.quantity + 1))}><Plus size={14} /></button></div><button aria-label={`More actions for ${product.name}`} onClick={() => setActionsFor(actionsFor === line.id ? null : line.id)}><MoreHorizontal /></button>{actionsFor === line.id ? <div className="line-menu"><button onClick={() => { setCart(saveForLater(cart, line.id)); setActionsFor(null); }}>Save for later</button><button onClick={() => { setCart(removeLine(cart, line.id)); setActionsFor(null); }}>Remove</button><button onClick={() => setActionsFor(null)}>Cancel</button></div> : null}</article>; })}</div>
-          {saved.length ? <><div className="section-heading"><div><small>Saved for later</small><h2>{saved.length} items</h2></div></div><div className="compact-list">{saved.map((line) => <div key={line.id}><strong>{productById.get(line.productId)?.name}</strong><button onClick={() => setCart(moveToCart(cart, line.id))}>Move to cart</button></div>)}</div></> : null}
+        {tab === "cart" ? <section className="screen"><div className="screen-title row"><div><small>Cart and shopping order</small><h1>{itemCountLabel(active.length)}</h1></div>{active.length ? <button className="text-danger" onClick={clearCart}>Clear cart</button> : null}</div>
+          <label className="order-control"><span><strong>Shopping order</strong><small>Reorders this list and the route preview.</small></span><select aria-label="Shopping order" value={cart.ordering} onChange={(event) => setCart(setCartOrdering(cart, event.target.value as CartOrdering))}>{Object.entries(orderLabels).map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></label>
+          <div className="cart-list" aria-label="Cart items">{orderedActiveLines.map((line, index) => { const product = productById.get(line.productId)!; const placement = placementByProduct.get(line.productId); return <article key={line.id} className="cart-line"><b className="order-index">{index + 1}</b><div className="product-art">{product.name[0]}</div><div><strong>{product.name}</strong><span>{placement?.aisleLabel ?? "Needs attention"}</span></div><QuantityControl product={product} quantity={line.quantity} onChange={(quantity) => setCart(updateQuantity(cart, line.id, quantity))} /><button aria-label={`More actions for ${product.name}`} onClick={() => setActionsFor(actionsFor === line.id ? null : line.id)}><MoreHorizontal /></button>{actionsFor === line.id ? <div className="line-menu"><button onClick={() => { setCart(saveForLater(cart, line.id)); setActionsFor(null); }}>Save for later</button><button onClick={() => { setCart(removeLine(cart, line.id)); setActionsFor(null); }}>Remove</button><button onClick={() => setActionsFor(null)}>Cancel</button></div> : null}</article>; })}</div>
+          {saved.length ? <><div className="section-heading"><div><small>Saved for later</small><h2>{itemCountLabel(saved.length)}</h2></div></div><div className="compact-list saved-list">{saved.map((line) => <div key={line.id}><strong>{productById.get(line.productId)?.name}</strong><button className="secondary-button" onClick={() => setCart(moveToCart(cart, line.id))}>Move to cart</button></div>)}</div></> : null}
           {active.length ? <button className="wide-action" onClick={() => setTab("route")}><Navigation size={18} /> Review {orderLabels[cart.ordering]}</button> : null}
         </section> : null}
 

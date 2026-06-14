@@ -29,7 +29,10 @@ and will use semantic versioning once releases begin.
 - Mobile-first Shop, Search, Cart, and Route navigation.
 - Store-scoped product search with availability-aware quick add.
 - Persistent cart management with quantity, remove, save-for-later, restore, and clear actions.
-- Added-order, aisle-order, and recommended-route shopping sequences.
+- Added-order, aisle-order, and recommended-route shopping sequences that visibly reorder the cart and route preview.
+- Inline product quantity controls in store-scoped search.
+- Distinct Shop trip overview, Search catalog, and Cart management responsibilities.
+- Consistent rounded secondary controls, shopping-order selector, and saved-item actions.
 - Versioned current-device persistence for store, cart, saved items, and preferred order.
 - Cart, persistence, and mobile shopping journey tests.
 - In-application About walkthrough covering the problem, solution, target users, route method, evidence, and limitations.

@@ -47,7 +47,7 @@ describe("mobile shopping journey", () => {
     first.unmount();
     render(<App />);
     expect((await screen.findByLabelText("Store") as HTMLSelectElement).value).toBe("store-2751");
-    expect(await screen.findByText("1 active items")).toBeTruthy();
+    expect(await screen.findByText("1 item ready to plan")).toBeTruthy();
   });
 
   it("confirms before clearing active cart items", async () => {
@@ -61,7 +61,7 @@ describe("mobile shopping journey", () => {
     expect(await screen.findByText("Organic Bananas")).toBeTruthy();
     confirm.mockReturnValue(true);
     await user.click(screen.getByRole("button", { name: "Clear cart" }));
-    expect(await screen.findByText("0 active items")).toBeTruthy();
+    expect(await screen.findByText("0 items")).toBeTruthy();
     confirm.mockRestore();
   });
 
@@ -100,6 +100,29 @@ describe("mobile shopping journey", () => {
     expect(screen.getByText("Your route")).toBeTruthy();
     expect(screen.getByText("Pick stop")).toBeTruthy();
     expect(screen.getByText(/Department zones and aisle fixtures orient/)).toBeTruthy();
+  });
+
+  it("shows inline product quantities and updates them from search", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    await navigateTo(user, "Search");
+    await user.click(screen.getByRole("button", { name: "Add Organic Bananas" }));
+    expect(screen.getByLabelText("Organic Bananas quantity")).toBeTruthy();
+    await user.click(screen.getByRole("button", { name: "Increase Organic Bananas" }));
+    await navigateTo(user, "Cart");
+    expect(within(screen.getByLabelText("Organic Bananas quantity")).getByText("2")).toBeTruthy();
+  });
+
+  it("reorders visible cart items when shopping order changes", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    await navigateTo(user, "Search");
+    await user.click(screen.getByRole("button", { name: "Add Laundry Detergent" }));
+    await user.click(screen.getByRole("button", { name: "Add Penne Pasta" }));
+    await navigateTo(user, "Cart");
+    await user.selectOptions(screen.getByLabelText("Shopping order"), "aisle-order");
+    const cartItems = screen.getByLabelText("Cart items");
+    await waitFor(() => expect(cartItems.textContent?.indexOf("Penne Pasta")).toBeLessThan(cartItems.textContent?.indexOf("Laundry Detergent") ?? 0));
   });
 });
 

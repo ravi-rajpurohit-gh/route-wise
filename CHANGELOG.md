@@ -25,7 +25,13 @@ and will use semantic versioning once releases begin.
 - Three validated store fixtures with unavailable-product handling.
 - Multi-store fixture, resolution, isolation, and route-planning tests.
 - Functional store selection with automatic store-specific route loading.
-- Guided-pick sessions with picked, skipped, reset, progress, and rerouting behavior.
+- Guided-pick sessions with picked, cannot-find, reset, progress, and rerouting behavior.
+- Mobile-first Shop, Search, Cart, and Route navigation.
+- Store-scoped product search with availability-aware quick add.
+- Persistent cart management with quantity, remove, save-for-later, restore, and clear actions.
+- Added-order, aisle-order, and recommended-route shopping sequences.
+- Versioned current-device persistence for store, cart, saved items, and preferred order.
+- Cart, persistence, and mobile shopping journey tests.
 - Unavailable-item display and UI integration tests.
 
 ### Fixed

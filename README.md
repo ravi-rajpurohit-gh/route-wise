@@ -18,12 +18,13 @@ The initial product hypothesis is:
 
 ## Current vertical slice
 
-- Weighted graph model for a sample store
-- Dijkstra shortest paths between pick locations
-- Nearest-neighbor sequencing with chilled and frozen items deferred
-- Aisle-order baseline and measurable route comparison
-- Interactive, responsive route visualization
-- Pick-progress interaction
+- Mobile-first Shop, Search, Cart, and Route experience
+- Store-first product availability and store-specific placement resolution
+- Cart quantity, remove, save-for-later, restore, and clear actions
+- Added-order, aisle-order, and recommended-route choices
+- Current-device persistence for store, cart, saved items, and preferred order
+- Guided picking with picked and cannot-find actions
+- Weighted graph routing with measurable aisle-order comparison
 
 ## Run locally
 
@@ -40,7 +41,7 @@ npm run check
 
 ## Current capabilities
 
-RouteWise resolves one cart across multiple store layouts, generates a store-specific pick route, and updates the remaining path as items are picked or skipped. The current routing strategy remains under active benchmark validation.
+RouteWise lets a shopper select a store, search its available products, manage a persistent cart, choose a shopping order, and follow a store-specific pick route that updates as items are picked or cannot be found. The current routing strategy remains under active benchmark validation.
 
 ## Project documentation
 

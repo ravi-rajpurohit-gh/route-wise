@@ -64,6 +64,10 @@ function connectStops(context: RouteContext, stops: string[]): RouteResult {
   return route;
 }
 
+export function addedOrderRoute(context: RouteContext, cart: ResolvedPickItem[]): RouteResult {
+  return connectStops(context, [context.startNodeId, ...cart.map((item) => item.nodeId), context.endNodeId]);
+}
+
 export function aisleOrderRoute(context: RouteContext, cart: ResolvedPickItem[]): RouteResult {
   const stops = [
     context.startNodeId,

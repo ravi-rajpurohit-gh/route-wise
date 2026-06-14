@@ -1,48 +1,56 @@
 // @vitest-environment jsdom
 
-import { afterEach, describe, expect, it } from "vitest";
-import { cleanup, render, screen, waitFor } from "@testing-library/react";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { cleanup, render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import App from "./App";
 
+beforeEach(() => localStorage.clear());
 afterEach(cleanup);
 
-describe("guided pick workflow", () => {
-  it("changes stores and displays unavailable items", async () => {
+describe("mobile shopping journey", () => {
+  const navigateTo = async (user: ReturnType<typeof userEvent.setup>, tab: string) => {
+    const navigation = await screen.findByRole("navigation", { name: "Primary navigation" });
+    await user.click(within(navigation).getByRole("button", { name: tab }));
+  };
+
+  it("searches and adds a product to the cart", async () => {
     const user = userEvent.setup();
     render(<App />);
-
-    await screen.findByRole("heading", { name: "Supercenter #1842" });
-    await user.selectOptions(screen.getByLabelText("Store"), "store-4103");
-
-    await screen.findByRole("heading", { name: "Neighborhood Market #4103" });
-    expect(screen.getByText("Ground Coffee")).toBeTruthy();
-    expect(screen.getByText("unavailable")).toBeTruthy();
+    await navigateTo(user, "Search");
+    await user.type(screen.getByLabelText("Search products"), "banana");
+    await user.click(screen.getByRole("button", { name: "Add" }));
+    await navigateTo(user, "Cart");
+    expect(await screen.findByText("Organic Bananas")).toBeTruthy();
   });
 
-  it("starts a session and marks an item picked", async () => {
+  it("supports quantity and save-for-later actions", async () => {
     const user = userEvent.setup();
     render(<App />);
-
-    await user.click(await screen.findByRole("button", { name: "Start picking" }));
-    const pickedActions = await screen.findAllByRole("button", { name: "Picked" });
-    await user.click(pickedActions[0]);
-
-    await waitFor(() => expect(screen.getByText("1 of 7 items handled")).toBeTruthy());
-    expect(screen.getByRole("button", { name: "Reset pick session" })).toBeTruthy();
+    await navigateTo(user, "Search");
+    await user.click((await screen.findAllByRole("button", { name: "Add" }))[0]);
+    await navigateTo(user, "Cart");
+    const name = productsFirstName();
+    await user.click(screen.getByLabelText(`Increase ${name}`));
+    await user.click(screen.getByLabelText(`More actions for ${name}`));
+    await user.click(screen.getByRole("button", { name: "Save for later" }));
+    expect(await screen.findByText("Saved for later")).toBeTruthy();
   });
 
-  it("skips an item and resets progress when the store changes", async () => {
+  it("persists cart and store selection on the current device", async () => {
     const user = userEvent.setup();
+    const first = render(<App />);
+    await user.selectOptions(await screen.findByLabelText("Store"), "store-2751");
+    await navigateTo(user, "Search");
+    await user.click((await screen.findAllByRole("button", { name: "Add" }))[0]);
+    await waitFor(() => expect(localStorage.getItem("routewise.shopping-state")).toContain("store-2751"));
+    first.unmount();
     render(<App />);
-
-    await user.click(await screen.findByRole("button", { name: "Start picking" }));
-    const skipActions = await screen.findAllByRole("button", { name: "Skip" });
-    await user.click(skipActions[0]);
-    await waitFor(() => expect(screen.getByText("1 of 7 items handled")).toBeTruthy());
-
-    await user.selectOptions(screen.getByLabelText("Store"), "store-2751");
-    await waitFor(() => expect(screen.getByText("0 of 7 items handled")).toBeTruthy());
-    expect(screen.getByRole("button", { name: "Start picking" })).toBeTruthy();
+    expect((await screen.findByLabelText("Store") as HTMLSelectElement).value).toBe("store-2751");
+    expect(await screen.findByText("1 active items")).toBeTruthy();
   });
 });
+
+function productsFirstName() {
+  return "Organic Bananas";
+}

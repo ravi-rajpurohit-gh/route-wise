@@ -176,3 +176,41 @@ Production-grade documentation should preserve decisions and evidence without
 dumping transient internal reasoning into code comments. The chosen records
 separate product intent, architecture, decisions, progress, investigations,
 and externally meaningful changes.
+
+
+## 2026-06-14: Mobile shopping foundation
+
+### Objective
+
+Turn the route optimizer into a store-first shopping journey that works for regular and delivery shoppers on mobile devices without requiring accounts or price data.
+
+### Product decisions
+
+- Require store selection context before product availability and placement are resolved.
+- Keep product prices outside the current scope.
+- Persist state on the current device using a versioned storage envelope.
+- Replace ambiguous skip behavior with cart save, remove, or cancel actions; use cannot-find only during active shopping.
+- Offer added order, aisle order, and recommended route as explicit user choices.
+
+### Implementation
+
+- Added a mobile-first application shell with Shop, Search, Cart, and Route navigation.
+- Added store-scoped search and availability-aware quick add.
+- Added cart quantity, remove, save-for-later, restore, clear, and ordering behavior.
+- Connected active cart lines to store-specific route planning and guided picking.
+- Added current-device persistence with safe fallback for invalid or incompatible state.
+- Added cart, persistence, and end-to-end UI integration tests.
+
+### Verification
+
+- 27 automated tests pass across seven test files.
+- TypeScript production build passes.
+- ESLint and whitespace checks pass.
+- Live server smoke check passes at `http://127.0.0.1:5173/`.
+
+### Remaining work
+
+- Perform visual QA at 320px, tablet, and desktop widths when browser automation is available.
+- Enforce 44px minimum touch targets throughout the interface.
+- Add explicit migrations when a second persisted-state schema is introduced.
+- Replace the node-derived route graphic with a customer-friendly store map.

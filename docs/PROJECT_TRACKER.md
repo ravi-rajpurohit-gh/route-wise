@@ -1,6 +1,6 @@
 # RouteWise Project Tracker
 
-Last updated: June 13, 2026
+Last updated: June 14, 2026
 
 ## Objective
 
@@ -25,7 +25,7 @@ deterministic cart.
 | M1.1: Visual credibility pass | In progress | Operations-oriented interface, clear evidence hierarchy, responsive QA, no decorative product fiction |
 | M1.2: Multi-store foundation | Complete | Store-independent cart, versioned layouts, product placements, three validated fixture stores, functional store selector |
 | M1.3: Customer-friendly store map | Planned | Department zones, aisle geometry, landmarks, route overlay, and visual QA across stores |
-| M1.4: Mobile shopping foundation | Planned | Store-first search, complete cart management, shopping-order selection, local persistence, and mobile QA |
+| M1.4: Mobile shopping foundation | In progress | Store-first search, complete cart management, shopping-order selection, local persistence, and mobile QA |
 | M2: Algorithm validation | In progress | Generated-cart benchmarks, 2-opt, exact small-cart comparison, performance report |
 | M3: Operational behavior | Planned | Unavailable items, substitutions, rerouting, multiple entrances, accessibility rules |
 | M4: Service architecture | Planned | Versioned API, persisted graphs, observability, validation, and performance budgets |
@@ -35,15 +35,15 @@ deterministic cart.
 
 ### Priority 0: Mobile shopping foundation
 
-- [ ] Define responsive application shell and mobile navigation.
-- [ ] Add store-scoped product search and quick-add behavior.
-- [ ] Add active cart and saved-for-later states.
-- [ ] Add quantity changes, removal, save-for-later, restore, and clear-cart actions.
-- [ ] Add shopping-order choices: added order, aisle order, and recommended route.
-- [ ] Replace Skip with explicit save-for-later, remove, or cancel choices.
-- [ ] Add cannot-find as a separate active-shopping action.
-- [ ] Persist selected store, cart, saved items, and preferred order on the current device.
-- [ ] Add local-persistence versioning and migration behavior.
+- [x] Define responsive application shell and mobile navigation.
+- [x] Add store-scoped product search and quick-add behavior.
+- [x] Add active cart and saved-for-later states.
+- [x] Add quantity changes, removal, save-for-later, restore, and clear-cart actions.
+- [x] Add shopping-order choices: added order, aisle order, and recommended route.
+- [x] Replace Skip with explicit save-for-later, remove, or cancel choices.
+- [x] Add cannot-find as a separate active-shopping action.
+- [x] Persist selected store, cart, saved items, and preferred order on the current device.
+- [ ] Add local-persistence migration behavior; incompatible versions currently reset safely.
 - [ ] Verify all core flows at 320px, tablet, and desktop widths.
 - [ ] Enforce 44px minimum mobile touch targets.
 

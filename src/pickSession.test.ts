@@ -7,6 +7,7 @@ import {
   markItemSkipped,
   pendingItems,
   startPickSession,
+  undoLastAction,
 } from "./pickSession";
 
 const items: ResolvedPickItem[] = [
@@ -33,5 +34,17 @@ describe("pick session", () => {
     expect(session.currentNodeId).toBe("entry");
     expect(session.statuses.a).toBe("skipped");
     expect(pendingItems(session, items)).toEqual([items[1]]);
+  });
+
+  it("undoes the last picked or cannot-find action and restores location", () => {
+    const started = startPickSession(createPickSession(items, "entry"));
+    const picked = markItemPicked(started, items[0]);
+    const skipped = markItemSkipped(picked, items[1]);
+    const undoSkipped = undoLastAction(skipped);
+    expect(undoSkipped.statuses.b).toBe("pending");
+    expect(undoSkipped.currentNodeId).toBe(items[0].nodeId);
+    const undoPicked = undoLastAction(undoSkipped);
+    expect(undoPicked.statuses.a).toBe("pending");
+    expect(undoPicked.currentNodeId).toBe("entry");
   });
 });

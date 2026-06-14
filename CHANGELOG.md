@@ -26,6 +26,7 @@ and will use semantic versioning once releases begin.
 - Multi-store fixture, resolution, isolation, and route-planning tests.
 - Functional store selection with automatic store-specific route loading.
 - Guided-pick sessions with picked, cannot-find, reset, progress, and rerouting behavior.
+- Stable guided-shopping stop numbers, fixed store landmarks, and undo for picked or not-found actions.
 - Mobile-first Shop, Search, Cart, and Route navigation.
 - Store-scoped product search with availability-aware quick add.
 - Persistent cart management with quantity, remove, save-for-later, restore, and clear actions.

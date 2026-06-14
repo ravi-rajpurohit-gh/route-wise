@@ -88,6 +88,8 @@ describe("mobile shopping journey", () => {
     await user.click(await screen.findByRole("button", { name: "Start shopping" }));
     await user.click(await screen.findByRole("button", { name: "Mark picked" }));
     expect(await screen.findByText("All route items are resolved")).toBeTruthy();
+    await user.click(screen.getByRole("button", { name: "Undo" }));
+    expect(await screen.findByRole("button", { name: "Mark picked" })).toBeTruthy();
   });
 
   it("renders a customer-friendly store map with landmarks and a legend", async () => {
@@ -99,7 +101,7 @@ describe("mobile shopping journey", () => {
     expect(await screen.findByText("Store map")).toBeTruthy();
     expect(screen.getByText("Your route")).toBeTruthy();
     expect(screen.getByText("Pick stop")).toBeTruthy();
-    expect(screen.getByText(/Department zones and aisle fixtures orient/)).toBeTruthy();
+    expect(screen.getByText(/Stop numbers stay fixed throughout the trip/)).toBeTruthy();
   });
 
   it("shows inline product quantities and updates them from search", async () => {
@@ -123,6 +125,24 @@ describe("mobile shopping journey", () => {
     await user.selectOptions(screen.getByLabelText("Shopping order"), "aisle-order");
     const cartItems = screen.getByLabelText("Cart items");
     await waitFor(() => expect(cartItems.textContent?.indexOf("Penne Pasta")).toBeLessThan(cartItems.textContent?.indexOf("Laundry Detergent") ?? 0));
+  });
+
+  it("keeps original stop numbers and fixed store landmarks after an action", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    await navigateTo(user, "Search");
+    await user.click(screen.getByRole("button", { name: "Add Organic Bananas" }));
+    await user.click(screen.getByRole("button", { name: "Add Penne Pasta" }));
+    await navigateTo(user, "Route");
+    await user.click(screen.getByRole("button", { name: "Start shopping" }));
+    const routeMap = screen.getByRole("img", { name: /Shopping route through/ });
+    expect(within(routeMap).getByText("IN")).toBeTruthy();
+    expect(within(routeMap).getByText("OUT")).toBeTruthy();
+    await user.click(screen.getByRole("button", { name: "Mark picked" }));
+    expect(screen.getByText("Stop 2 · A08")).toBeTruthy();
+    expect(within(routeMap).getByText("2")).toBeTruthy();
+    expect(within(routeMap).getByText("IN")).toBeTruthy();
+    expect(within(routeMap).getByText("OUT")).toBeTruthy();
   });
 });
 

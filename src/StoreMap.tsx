@@ -4,6 +4,7 @@ type StoreMapProps = {
   context: RouteContext;
   route: RouteResult;
   store: Store;
+  stopNumbers: Map<string, number>;
 };
 
 const aisleFixtures = [
@@ -14,7 +15,7 @@ const aisleFixtures = [
   { x: 472, label: "18" },
 ];
 
-export function StoreMap({ route, context, store }: StoreMapProps) {
+export function StoreMap({ route, context, store, stopNumbers }: StoreMapProps) {
   const nodeById = new Map(context.nodes.map((node) => [node.id, node]));
   const points = route.path.map((id) => nodeById.get(id)).filter(Boolean).map((node) => `${node!.x},${node!.y}`).join(" ");
   const entry = nodeById.get(context.startNodeId);
@@ -47,14 +48,14 @@ export function StoreMap({ route, context, store }: StoreMapProps) {
         </g>
         <polyline points={points} className="active-route route-halo" />
         <polyline points={points} className="active-route" />
-        {route.stops.slice(1, -1).map((id, index) => {
+        {route.stops.slice(1, -1).map((id) => {
           const node = nodeById.get(id);
-          return node ? <g key={id} className="map-stop"><circle cx={node.x} cy={node.y} r="16" className="route-stop" /><text x={node.x} y={node.y + 4} textAnchor="middle" className="route-stop-label">{index + 1}</text></g> : null;
+          return node ? <g key={id} className="map-stop"><circle cx={node.x} cy={node.y} r="16" className="route-stop" /><text x={node.x} y={node.y + 4} textAnchor="middle" className="route-stop-label">{stopNumbers.get(id) ?? "•"}</text></g> : null;
         })}
         {entry ? <g className="entry-marker"><circle cx={entry.x} cy={entry.y} r="18" /><text x={entry.x} y={entry.y + 4} textAnchor="middle">IN</text></g> : null}
         {checkout ? <g className="checkout-marker"><circle cx={checkout.x} cy={checkout.y} r="18" /><text x={checkout.x} y={checkout.y + 4} textAnchor="middle">OUT</text></g> : null}
       </svg>
-      <p className="map-note">Numbered stops follow the selected shopping order. Department zones and aisle fixtures orient the shopper; the route remains calculated from the store's walkable graph.</p>
+      <p className="map-note">Stop numbers stay fixed throughout the trip while the remaining route recalculates from your last confirmed location.</p>
     </figure>
   );
 }

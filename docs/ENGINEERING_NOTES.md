@@ -4,6 +4,29 @@ This log records implementation reasoning, investigations, fixes, and material
 technical observations. Durable architectural choices belong in ADRs; planned
 work belongs in the project tracker.
 
+## 2026-06-14: Stabilize the guided-shopping mental model
+
+### Product decisions
+
+- Kept entry and checkout fixed because they are store-layout landmarks, not
+  route-progress indicators.
+- Preserved the original stop number assigned at session start. Remaining stops
+  can have gaps after an action, while the route still recalculates from the
+  shopper's last confirmed location.
+- Added single-step Undo for both picked and cannot-find actions, including
+  restoration of the shopper's previous confirmed location.
+- Retained sentence-case action labels such as `Mark picked`, consistent with
+  common product-interface writing conventions.
+
+### Verification
+
+- Added unit coverage for undoing picked and cannot-find actions.
+- Added integration coverage for fixed landmarks, stable stop numbers, and
+  completion-state undo.
+- Confirmed the complete flow in the local browser across picked, undo, and
+  cannot-find actions.
+- All 38 tests, lint, TypeScript compilation, and production build pass.
+
 ## 2026-06-13: Deliver the guided-pick workflow
 
 ### Product behavior

@@ -42,6 +42,9 @@ deterministic cart.
 - [x] Add shopping-order choices: added order, aisle order, and recommended route.
 - [x] Replace Skip with explicit save-for-later, remove, or cancel choices.
 - [x] Add cannot-find as a separate active-shopping action.
+- [x] Keep store entry and checkout landmarks fixed during guided shopping.
+- [x] Preserve original stop numbers while the remaining route recalculates.
+- [x] Add Undo for the most recent picked or cannot-find action.
 - [x] Persist selected store, cart, saved items, and preferred order on the current device.
 - [ ] Add local-persistence migration behavior; incompatible versions currently reset safely.
 - [x] Verify responsive route and navigation behavior at 320px, 768px, and 1280px without document-level horizontal overflow.

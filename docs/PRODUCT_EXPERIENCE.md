@@ -163,16 +163,27 @@ Before starting, show the selected order and its estimated route impact.
 
 During an active shopping session, the next item is the primary interface.
 
+- Keep the store's entry and checkout landmarks fixed. They describe the
+  physical layout, not the shopper's current route.
+- Assign stop numbers when the session begins and keep them stable throughout
+  the trip. Completed or skipped stops may leave gaps while the remaining route
+  recalculates from the shopper's last confirmed location.
+- Make the most recent picked or cannot-find action undoable.
+- Use sentence case for action labels, including **Mark picked**.
+
 ### Picked
 
 - Mark the item complete.
 - Advance the shopper's confirmed location.
 - Recalculate the remaining recommended route.
+- Offer Undo so an accidental confirmation restores the item and prior
+  confirmed location.
 
 ### Cannot find item
 
 - Mark the item unavailable for this session.
 - Recalculate the route.
+- Offer Undo so the item can return to the active route.
 - Offer substitutions in a later milestone.
 
 ### More actions
